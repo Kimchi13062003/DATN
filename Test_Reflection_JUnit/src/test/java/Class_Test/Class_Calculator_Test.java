@@ -10,51 +10,56 @@ public class Class_Calculator_Test {
 
     @ParameterizedTest
     @CsvSource({
-        "2,3,5"
+        "81, 87, 168",
+        "83, 64, 147"
     })
-    public void add_Test(int param0, int param1, int expectedResult) {
+    public void add_Test(int arg0, int arg1, int expectedResult) {
         Class_Calculator obj = new Class_Calculator();
-        int actual = obj.add(param0, param1);
+        int actual = obj.add(arg0, arg1);
         assertEquals(expectedResult, actual);
     }
 
     @ParameterizedTest
     @CsvSource({
-        "10,5,5"
+        "73, 68, 5 , 24820",
+        "45, 25, 55, 61875"
     })
-    public void sub_Test(int param0, int param1, int expectedResult) {
+    public void multiply_Test(int arg0, int arg1, int arg2, int expectedResult) {
         Class_Calculator obj = new Class_Calculator();
-        int actual = obj.sub(param0, param1);
+        int actual = obj.multiply(arg0, arg1, arg2);
         assertEquals(expectedResult, actual);
     }
 
     @ParameterizedTest
     @CsvSource({
-        "4,true"
+        "45, 96, -51",
+        "97, 67, 30 "
     })
-    public void isEven_Test(int param0, boolean expectedResult) {
+    public void sub_Test(int arg0, int arg1, int expectedResult) {
         Class_Calculator obj = new Class_Calculator();
-        boolean actual = obj.isEven(param0);
+        int actual = obj.sub(arg0, arg1);
         assertEquals(expectedResult, actual);
     }
 
     @ParameterizedTest
     @CsvSource({
-        "3,3,3,27"
+        "65.05, 25.23, 90.28 ",
+        "33.85, 82.18, 116.03"
     })
-    public void multiply_Test(int param0, int param1, int param2, int expectedResult) {
+    public void add2_Test(double arg0, double arg1, double expectedResult) {
         Class_Calculator obj = new Class_Calculator();
-        int actual = obj.multiply(param0, param1, param2);
+        double actual = obj.add2(arg0, arg1);
         assertEquals(expectedResult, actual);
     }
 
     @ParameterizedTest
     @CsvSource({
-        "3.5,2.5,6.0"
+        "59, false",
+        "91, false"
     })
-    public void add2_Test(double param0, double param1, double expectedResult) {
+    public void isEven_Test(int arg0, boolean expectedResult) {
         Class_Calculator obj = new Class_Calculator();
-        double actual = obj.add2(param0, param1);
+        boolean actual = obj.isEven(arg0);
         assertEquals(expectedResult, actual);
     }
 

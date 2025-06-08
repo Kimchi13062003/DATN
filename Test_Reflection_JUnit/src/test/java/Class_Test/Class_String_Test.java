@@ -10,61 +10,85 @@ public class Class_String_Test {
 
     @ParameterizedTest
     @CsvSource({
-        "UTEHY,utehy"
+        "YPH0z, 5",
+        "MTLqX, 5",
+        "gZi1D, 5"
     })
-    public void toLowerCase_Test(String param0, String expectedResult) {
+    public void length_Test(String arg0, int expectedResult) {
         Class_String obj = new Class_String();
-        String actual = obj.toLowerCase(param0);
+        int actual = obj.length(arg0);
         assertEquals(expectedResult, actual);
     }
 
     @ParameterizedTest
     @CsvSource({
-        "test,4"
+        "X37dd, 63, 79, null",
+        "PQxiq, 87, 21, null",
+        "GShYC, 99, 98, null"
     })
-    public void length_Test(String param0, int expectedResult) {
+    public void substring_Test(String arg0, int arg1, int arg2, String expectedResult) {
         Class_String obj = new Class_String();
-        int actual = obj.length(param0);
+        String actual = obj.substring(arg0, arg1, arg2);
         assertEquals(expectedResult, actual);
     }
 
     @ParameterizedTest
     @CsvSource({
-        "abcd,ABCD"
+        "nPLwB, false",
+        "rmQdW, false",
+        "JYq9K, false"
     })
-    public void toUpperCase_Test(String param0, String expectedResult) {
+    public void isEmpty_Test(String arg0, boolean expectedResult) {
         Class_String obj = new Class_String();
-        String actual = obj.toUpperCase(param0);
+        boolean actual = obj.isEmpty(arg0);
         assertEquals(expectedResult, actual);
     }
 
     @ParameterizedTest
     @CsvSource({
-        "hello,world,helloworld"
+        "kVdPp, kvdpp",
+        "hgt8M, hgt8m",
+        "Uugxi, uugxi"
     })
-    public void concat_Test(String param0, String param1, String expectedResult) {
+    public void toLowerCase_Test(String arg0, String expectedResult) {
         Class_String obj = new Class_String();
-        String actual = obj.concat(param0, param1);
+        String actual = obj.toLowerCase(arg0);
         assertEquals(expectedResult, actual);
     }
 
     @ParameterizedTest
     @CsvSource({
-        "SPKTHY,UTEHY,false"
+        "AdkDX, ADKDX",
+        "HOEWT, HOEWT",
+        "fQpy1, FQPY1"
     })
-    public void equalsString_Test(String param0, String param1, boolean expectedResult) {
+    public void toUpperCase_Test(String arg0, String expectedResult) {
         Class_String obj = new Class_String();
-        boolean actual = obj.equalsString(param0, param1);
+        String actual = obj.toUpperCase(arg0);
         assertEquals(expectedResult, actual);
     }
 
     @ParameterizedTest
     @CsvSource({
-        "xyz123,1,4,yz1"
+        "j7wUg, wj4LS, j7wUgwj4LS",
+        "u2w4C, VSRL8, u2w4CVSRL8",
+        "QnS0o, C9p8c, QnS0oC9p8c"
     })
-    public void substring_Test(String param0, int param1, int param2, String expectedResult) {
+    public void concat_Test(String arg0, String arg1, String expectedResult) {
         Class_String obj = new Class_String();
-        String actual = obj.substring(param0, param1, param2);
+        String actual = obj.concat(arg0, arg1);
+        assertEquals(expectedResult, actual);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "YFUIB, IBdHd, false",
+        "uauZe, LwYXl, false",
+        "pve2K, 9tYru, false"
+    })
+    public void equalsString_Test(String arg0, String arg1, boolean expectedResult) {
+        Class_String obj = new Class_String();
+        boolean actual = obj.equalsString(arg0, arg1);
         assertEquals(expectedResult, actual);
     }
 

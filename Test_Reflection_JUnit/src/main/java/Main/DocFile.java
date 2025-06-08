@@ -289,7 +289,7 @@ public class DocFile extends JFrame {
 
         code.append("    public void ").append(method.getName()).append("_Test(");
         for (int i = 0; i < parameters.length; i++) {
-            code.append(Analyzer_Ref.getJavaTypeName(parameters[i].getType())).append(" param").append(i);
+            code.append(Analyzer_Ref.getJavaTypeName(parameters[i].getType())).append(" arg").append(i);
             if (i < parameters.length - 1) code.append(", ");
         }
         code.append(", ").append(returnTypeName).append(" expectedResult) {\n");
@@ -298,7 +298,7 @@ public class DocFile extends JFrame {
         code.append("        ").append(className).append(" obj = new ").append(className).append("();\n");
 
         String argsList = IntStream.range(0, parameters.length)
-                .mapToObj(i -> "param" + i)
+                .mapToObj(i -> "arg" + i)
                 .collect(Collectors.joining(", "));
 
         code.append("        ").append(returnTypeName).append(" actual = obj.").append(method.getName()).append("(").append(argsList)
