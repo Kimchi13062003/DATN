@@ -170,7 +170,7 @@ public class Analyzer_Ref {
 
             // Compile using Maven
             ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c",
-                    "E:\\Download\\apache-maven-3.9.6\\bin\\mvn.cmd", "clean", "compile");
+                    "D:\\apache-maven-3.9.10\\bin\\mvn.cmd", "clean", "compile");
             pb.directory(new File(projectDir));
             pb.redirectErrorStream(true);
             Process process = pb.start();

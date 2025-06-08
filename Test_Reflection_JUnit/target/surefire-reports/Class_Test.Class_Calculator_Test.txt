@@ -1,0 +1,14 @@
+-------------------------------------------------------------------------------
+Test set: Class_Test.Class_Calculator_Test
+-------------------------------------------------------------------------------
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.128 s -- in Class_Test.Class_Calculator_Test
+Class_Test.Class_Calculator_Test.sub_Test(int, int, int)[1] -- Time elapsed: 0.039 s
+Class_Test.Class_Calculator_Test.sub_Test(int, int, int)[2] -- Time elapsed: 0.001 s
+Class_Test.Class_Calculator_Test.add_Test(int, int, int)[1] -- Time elapsed: 0.001 s
+Class_Test.Class_Calculator_Test.add_Test(int, int, int)[2] -- Time elapsed: 0.001 s
+Class_Test.Class_Calculator_Test.add2_Test(double, double, double)[1] -- Time elapsed: 0.003 s
+Class_Test.Class_Calculator_Test.add2_Test(double, double, double)[2] -- Time elapsed: 0.001 s
+Class_Test.Class_Calculator_Test.multiply_Test(int, int, int, int)[1] -- Time elapsed: 0.003 s
+Class_Test.Class_Calculator_Test.multiply_Test(int, int, int, int)[2] -- Time elapsed: 0.001 s
+Class_Test.Class_Calculator_Test.isEven_Test(int, boolean)[1] -- Time elapsed: 0.003 s
+Class_Test.Class_Calculator_Test.isEven_Test(int, boolean)[2] -- Time elapsed: 0.001 s

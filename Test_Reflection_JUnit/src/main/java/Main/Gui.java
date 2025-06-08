@@ -67,8 +67,8 @@ public class Gui extends JFrame {
 		add(runPanel, BorderLayout.CENTER);
 
 		JPanel bottomPanel = new JPanel(new BorderLayout());
-		testCodeArea = new JTextArea(23, 50);
-		testCodeArea.setFont(new Font("Verdana", Font.PLAIN, 13));
+		testCodeArea = new JTextArea(22, 50);
+		testCodeArea.setFont(new Font("Noto Sans", Font.PLAIN, 13));
 		bottomPanel.add(new JScrollPane(testCodeArea), BorderLayout.CENTER);
 
 		statusLabel = new JLabel("Chọn file Java để bắt đầu!", JLabel.CENTER);
@@ -198,7 +198,6 @@ public class Gui extends JFrame {
 		runJUnitButton.addActionListener(e -> {
 			try {
 				File projectDir = new File(System.getProperty("user.dir"));
-//				File projectDir = new File("D:\\Eclipse_Reflection_JUnit\\Test_Reflection_JUnit");
 				String className = extractClassName(filePathField.getText());
 				if (className == null || className.trim().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn file Java trước!", "Lỗi",
@@ -211,7 +210,7 @@ public class Gui extends JFrame {
 
 				// Build the project first
 				ProcessBuilder buildProcess = new ProcessBuilder("cmd.exe", "/c",
-						"E:\\Download\\apache-maven-3.9.6\\bin\\mvn.cmd", "clean", "compile",
+						"D:\\apache-maven-3.9.10\\bin\\mvn.cmd", "clean", "compile",
 						"-Dtest=" + testClassName);
 				buildProcess.directory(projectDir);
 				buildProcess.redirectErrorStream(true);
@@ -224,7 +223,7 @@ public class Gui extends JFrame {
 				}
 				int buildExitCode = build.waitFor();
 				if (buildExitCode != 0) {
-					testCodeArea.setText("❌ Build thất bại\n\n==== OUTPUT ====\n" + buildOutput.toString() + "\n");
+					testCodeArea.setText("✘ Build thất bại\n\n==== OUTPUT ====\n" + buildOutput.toString() + "\n");
 					JOptionPane.showMessageDialog(null, "Build thất bại. Vui lòng kiểm tra console!", "Lỗi",
 							JOptionPane.ERROR_MESSAGE);
 					return;
@@ -232,7 +231,7 @@ public class Gui extends JFrame {
 
 				// Run tests
 				ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c",
-						"E:\\Download\\apache-maven-3.9.6\\bin\\mvn.cmd", "test", "-Dtest=" + testClassName);
+						"D:\\apache-maven-3.9.10\\bin\\mvn.cmd", "test", "-Dtest=" + testClassName);
 				pb.directory(projectDir);
 				pb.redirectErrorStream(true);
 				Process process = pb.start();
@@ -246,7 +245,7 @@ public class Gui extends JFrame {
 				int exitCode = process.waitFor();
 
 				if (exitCode != 0) {
-					testCodeArea.setText("❌ Lỗi khi chạy mvn test:\n" + output.toString());
+					testCodeArea.setText("✘ Lỗi khi chạy mvn test:\n" + output.toString());
 					JOptionPane.showMessageDialog(null, "Chạy JUnit thất bại. Vui lòng kiểm tra console!", "Lỗi",
 							JOptionPane.ERROR_MESSAGE);
 					return;
@@ -278,15 +277,15 @@ public class Gui extends JFrame {
 							String name = el.getAttribute("name");
 							String classname = el.getAttribute("classname");
 							String time = el.getAttribute("time");
-							String status = "✅ Passed";
+							String status = "✔ Passed";
 							total++;
 							totalTime += Double.parseDouble(time);
 							if (el.getElementsByTagName("skipped").getLength() > 0) {
-								status = "⚠️ Skipped";
+								status = "⏳ Skipped";
 								skipped++;
 							} else if (el.getElementsByTagName("failure").getLength() > 0
 									|| el.getElementsByTagName("error").getLength() > 0) {
-								status = "❌ Failed";
+								status = "✘ Failed";
 								failed++;
 							} else {
 								passed++;
@@ -294,11 +293,11 @@ public class Gui extends JFrame {
 							testCaseLines
 									.add(String.format("%-40s %-10s ⏱ %.3f s", name, status, Double.parseDouble(time)));
 						}
-						testCodeArea.setFont(new java.awt.Font("Verdana", java.awt.Font.PLAIN, 13));
+						testCodeArea.setFont(new java.awt.Font("Noto Sans", java.awt.Font.PLAIN, 13));
 						testCodeArea.setText("");
 						// Hiển thị bảng gọn không có ký tự phân cách
 						StringBuilder table = new StringBuilder();
-						String header = String.format("%-5s %-40s %-9s %-8s\n", "STT", "Test Name", "Status", "Time");
+						String header = String.format("%-20s %-50s %-13s %-10s\n", "TEST CASE", "TEST NAME", "STATUS", "TIME");
 						table.append(header);
 						int idx = 1;
 						for (String tcLine : testCaseLines) {
@@ -308,11 +307,11 @@ public class Gui extends JFrame {
 							String status = parts.length > 1 ? parts[1] : "";
 							String time = parts.length > 2 ? parts[2] : "";
 							if (tcLine.contains("⏱")) {
-								int statusIdx = tcLine.indexOf("✅");
+								int statusIdx = tcLine.indexOf("✔");
 								if (statusIdx == -1)
-									statusIdx = tcLine.indexOf("❌");
+									statusIdx = tcLine.indexOf("✘");
 								if (statusIdx == -1)
-									statusIdx = tcLine.indexOf("⚠️");
+									statusIdx = tcLine.indexOf("⏳");
 								if (statusIdx > 0) {
 									name = tcLine.substring(0, statusIdx).trim();
 									String remain = tcLine.substring(statusIdx).trim();
@@ -321,13 +320,13 @@ public class Gui extends JFrame {
 									time = remainParts.length > 1 ? "⏱" + remainParts[1].trim() : "";
 								}
 							}
-							table.append(String.format("%-5d %-40s %-9s %-8s\n", idx++, name, status, time));
+							table.append(String.format("%-20s %-70s %-20s %-20s\n", idx++, name, status, time));
 						}
 						testCodeArea.setText(table.toString());
 						testCodeArea.append("\n");
-						testCodeArea.append(String.format("❌ Failed  : %d testcase%n", failed));
-						testCodeArea.append(String.format("✅ Passed  : %d testcase%n", passed));
-						testCodeArea.append(String.format("⚠️ Skipped : %d testcase%n", skipped));
+						testCodeArea.append(String.format("✘ Failed  : %d testcase%n", failed));
+						testCodeArea.append(String.format("✔ Passed  : %d testcase%n", passed));
+						testCodeArea.append(String.format("⏳ Skipped : %d testcase%n", skipped));
 						testCodeArea.append(String.format("📊 Total   : %d testcase%n", total));
 						testCodeArea.append(String.format("⏱ Total Time : %.3f s%n", totalTime));
 					}
@@ -339,7 +338,7 @@ public class Gui extends JFrame {
 						JOptionPane.INFORMATION_MESSAGE);
 
 			} catch (Exception ex) {
-				testCodeArea.setText("❌ Lỗi khi chạy mvn test:\n" + ex.getMessage() + "\n" + getStackTrace(ex));
+				testCodeArea.setText("✘ Lỗi khi chạy mvn test:\n" + ex.getMessage() + "\n" + getStackTrace(ex));
 				ex.printStackTrace();
 				JOptionPane.showMessageDialog(null, "Chạy JUnit thất bại: " + ex.getMessage(), "Lỗi",
 						JOptionPane.ERROR_MESSAGE);

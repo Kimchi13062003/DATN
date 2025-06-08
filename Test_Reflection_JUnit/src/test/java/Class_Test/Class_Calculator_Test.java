@@ -10,8 +10,8 @@ public class Class_Calculator_Test {
 
     @ParameterizedTest
     @CsvSource({
-        "81, 87, 168",
-        "83, 64, 147"
+        "75, 73, 148",
+        "18, 50, 68 "
     })
     public void add_Test(int arg0, int arg1, int expectedResult) {
         Class_Calculator obj = new Class_Calculator();
@@ -21,8 +21,8 @@ public class Class_Calculator_Test {
 
     @ParameterizedTest
     @CsvSource({
-        "73, 68, 5 , 24820",
-        "45, 25, 55, 61875"
+        "51, 37, 1 , 1887  ",
+        "85, 46, 72, 281520"
     })
     public void multiply_Test(int arg0, int arg1, int arg2, int expectedResult) {
         Class_Calculator obj = new Class_Calculator();
@@ -32,8 +32,8 @@ public class Class_Calculator_Test {
 
     @ParameterizedTest
     @CsvSource({
-        "45, 96, -51",
-        "97, 67, 30 "
+        "11, 27, -16",
+        "18, 26, -8 "
     })
     public void sub_Test(int arg0, int arg1, int expectedResult) {
         Class_Calculator obj = new Class_Calculator();
@@ -43,23 +43,23 @@ public class Class_Calculator_Test {
 
     @ParameterizedTest
     @CsvSource({
-        "65.05, 25.23, 90.28 ",
-        "33.85, 82.18, 116.03"
+        "9 , false",
+        "97, false"
     })
-    public void add2_Test(double arg0, double arg1, double expectedResult) {
+    public void isEven_Test(int arg0, boolean expectedResult) {
         Class_Calculator obj = new Class_Calculator();
-        double actual = obj.add2(arg0, arg1);
+        boolean actual = obj.isEven(arg0);
         assertEquals(expectedResult, actual);
     }
 
     @ParameterizedTest
     @CsvSource({
-        "59, false",
-        "91, false"
+        "52.17, 58.18, 110.35",
+        "37.48, 44.14, 81.62 "
     })
-    public void isEven_Test(int arg0, boolean expectedResult) {
+    public void add2_Test(double arg0, double arg1, double expectedResult) {
         Class_Calculator obj = new Class_Calculator();
-        boolean actual = obj.isEven(arg0);
+        double actual = obj.add2(arg0, arg1);
         assertEquals(expectedResult, actual);
     }
 
