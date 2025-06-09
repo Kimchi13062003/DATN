@@ -34,6 +34,14 @@ public class Class_String {
 
     // Cắt chuỗi từ chỉ số start đến end
     public String substring(String str, int start, int end) {
+    	if (str == null) {
+            throw new IllegalArgumentException("Input string is null");
+        }
+        if (start < 0 || end > str.length() || start > end) {
+            throw new StringIndexOutOfBoundsException(
+                "Range [" + start + ", " + end + ") out of bounds for length " + str.length()
+            );
+        }
         return str.substring(start, end);
     }
 }

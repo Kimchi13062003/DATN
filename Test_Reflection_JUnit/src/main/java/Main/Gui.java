@@ -27,12 +27,13 @@ public class Gui extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setLocationRelativeTo(null);
-		setResizable(false);
+		//setResizable(false);
 
 		addComponents();
 		setVisible(true);
 	}
 
+	// Các thành phần
 	private void addComponents() {
 		JPanel topPanel = new JPanel(new GridLayout(2, 1));
 		JPanel filePanel = new JPanel(new FlowLayout());
@@ -43,6 +44,7 @@ public class Gui extends JFrame {
 		filePanel.add(browseButton);
 		topPanel.add(filePanel);
 
+		// PANEL CHỨA NÚT ĐIỀU KHIỂN
 		JPanel controlPanel = new JPanel(new FlowLayout());
 		randomButton = new JButton("Random");
 		manualButton = new JButton("Nhập dữ liệu");
@@ -59,6 +61,7 @@ public class Gui extends JFrame {
 		topPanel.add(controlPanel);
 		add(topPanel, BorderLayout.NORTH);
 
+		// PANEL CHỨA BUTTON RUN/RUNJUNIT
 		JPanel runPanel = new JPanel(new FlowLayout());
 		runButton = new JButton("Run");
 		runJUnitButton = new JButton("Run JUnit");
@@ -66,9 +69,10 @@ public class Gui extends JFrame {
 		runPanel.add(runJUnitButton);
 		add(runPanel, BorderLayout.CENTER);
 
+		// PANEL CHỨA AREA/STATUS
 		JPanel bottomPanel = new JPanel(new BorderLayout());
-		testCodeArea = new JTextArea(22, 50);
-		testCodeArea.setFont(new Font("Noto Sans", Font.PLAIN, 13));
+		testCodeArea = new JTextArea(30, 50);
+		testCodeArea.setFont(new Font("Consolas", Font.PLAIN, 15));
 		bottomPanel.add(new JScrollPane(testCodeArea), BorderLayout.CENTER);
 
 		statusLabel = new JLabel("Chọn file Java để bắt đầu!", JLabel.CENTER);
@@ -79,6 +83,7 @@ public class Gui extends JFrame {
 
 		setButtonsEnabled(false);
 
+		// SỰ KIỆN NÚT BROWSE
 		browseButton.addActionListener(e -> {
 			JFileChooser fileChooser = new JFileChooser(
 					"D:\\Eclipse_Reflection_JUnit\\Test_Reflection_JUnit\\src\\main\\java\\My_Source");
@@ -115,11 +120,13 @@ public class Gui extends JFrame {
 			}
 		});
 
+		// SỰ KIỆN NÚT RANDOM
 		randomButton.addActionListener(e -> {
 			JOptionPane.showMessageDialog(null, "Bạn chọn tạo tham số ngẫu nhiên!", "Thông báo",
 					JOptionPane.INFORMATION_MESSAGE);
 		});
 
+		// SỰ KIỆN NÚT NHẬP DL
 		manualButton.addActionListener(e -> {
 			String selectedClassName = extractClassName(filePathField.getText());
 
@@ -137,6 +144,7 @@ public class Gui extends JFrame {
 			}
 		});
 
+		// SỰ KIỆN NÚT ĐỌC FILE
 		readFileButton.addActionListener(e -> {
 			String selectedClassName = extractClassName(filePathField.getText());
 
@@ -154,6 +162,7 @@ public class Gui extends JFrame {
 			}
 		});
 
+		// SỰ KIỆN SLIDER
 		testCaseSlider.addChangeListener(e -> {
 			int numTestCases = testCaseSlider.getValue();
 			String selectedFile = extractClassName(filePathField.getText());
@@ -169,6 +178,7 @@ public class Gui extends JFrame {
 			}
 		});
 
+		// SỰ KIỆN NÚT RUN
 		runButton.addActionListener(e -> {
 			String className = extractClassName(filePathField.getText());
 
@@ -195,6 +205,7 @@ public class Gui extends JFrame {
 			}
 		});
 
+		// SỰ KIỆN NÚT RANJUNIT
 		runJUnitButton.addActionListener(e -> {
 			try {
 				File projectDir = new File(System.getProperty("user.dir"));
@@ -208,10 +219,9 @@ public class Gui extends JFrame {
 				String simpleClassName = className.substring(className.lastIndexOf('.') + 1);
 				String testClassName = "Class_Test." + simpleClassName + "_Test";
 
-				// Build the project first
+				// Xây dựng dự án
 				ProcessBuilder buildProcess = new ProcessBuilder("cmd.exe", "/c",
-						"D:\\apache-maven-3.9.10\\bin\\mvn.cmd", "clean", "compile",
-						"-Dtest=" + testClassName);
+						"D:\\apache-maven-3.9.10\\bin\\mvn.cmd", "clean", "compile", "-Dtest=" + testClassName);
 				buildProcess.directory(projectDir);
 				buildProcess.redirectErrorStream(true);
 				Process build = buildProcess.start();
@@ -223,15 +233,15 @@ public class Gui extends JFrame {
 				}
 				int buildExitCode = build.waitFor();
 				if (buildExitCode != 0) {
-					testCodeArea.setText("✘ Build thất bại\n\n==== OUTPUT ====\n" + buildOutput.toString() + "\n");
+					testCodeArea.setText("[Fail] Build thất bại\n\n==== OUTPUT ====\n" + buildOutput.toString() + "\n");
 					JOptionPane.showMessageDialog(null, "Build thất bại. Vui lòng kiểm tra console!", "Lỗi",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
-				// Run tests
-				ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c",
-						"D:\\apache-maven-3.9.10\\bin\\mvn.cmd", "test", "-Dtest=" + testClassName);
+				// Chạy các bài test
+				ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "D:\\apache-maven-3.9.10\\bin\\mvn.cmd", "test",
+						"-Dtest=" + testClassName);
 				pb.directory(projectDir);
 				pb.redirectErrorStream(true);
 				Process process = pb.start();
@@ -245,7 +255,7 @@ public class Gui extends JFrame {
 				int exitCode = process.waitFor();
 
 				if (exitCode != 0) {
-					testCodeArea.setText("✘ Lỗi khi chạy mvn test:\n" + output.toString());
+					testCodeArea.setText("[Fail] Lỗi khi chạy mvn test:\n" + output.toString());
 					JOptionPane.showMessageDialog(null, "Chạy JUnit thất bại. Vui lòng kiểm tra console!", "Lỗi",
 							JOptionPane.ERROR_MESSAGE);
 					return;
@@ -277,28 +287,31 @@ public class Gui extends JFrame {
 							String name = el.getAttribute("name");
 							String classname = el.getAttribute("classname");
 							String time = el.getAttribute("time");
-							String status = "✔ Passed";
+							String status = "[Ok] Passed";
 							total++;
 							totalTime += Double.parseDouble(time);
 							if (el.getElementsByTagName("skipped").getLength() > 0) {
-								status = "⏳ Skipped";
+								status = "[Skip] Skipped";
 								skipped++;
 							} else if (el.getElementsByTagName("failure").getLength() > 0
 									|| el.getElementsByTagName("error").getLength() > 0) {
-								status = "✘ Failed";
+								status = "[Fail] Failed";
 								failed++;
 							} else {
 								passed++;
 							}
 							testCaseLines
-									.add(String.format("%-40s %-10s ⏱ %.3f s", name, status, Double.parseDouble(time)));
+									.add(String.format("%-40s %-10s : %.3f s", name, status, Double.parseDouble(time)));
 						}
-						testCodeArea.setFont(new java.awt.Font("Noto Sans", java.awt.Font.PLAIN, 13));
+						testCodeArea.setFont(new java.awt.Font("Consolas", java.awt.Font.PLAIN, 15));
 						testCodeArea.setText("");
-						// Hiển thị bảng gọn không có ký tự phân cách
-						StringBuilder table = new StringBuilder();
-						String header = String.format("%-20s %-50s %-13s %-10s\n", "TEST CASE", "TEST NAME", "STATUS", "TIME");
+						
+						StringBuilder table = new StringBuilder(); // Hiển thị bảng và căn cột
+						
+						String header = String.format("%-15s %-60s %-30s %-10s\n", "TEST CASE", "TEST NAME", "STATUS", "TIME"); // Định dạng tiêu đề với độ rộng cột cố định
 						table.append(header);
+						table.append("-".repeat(115) + "\n"); // Thêm đường kẻ phân cách với độ dài phù hợp
+						
 						int idx = 1;
 						for (String tcLine : testCaseLines) {
 							// tcLine: name, status, time
@@ -306,29 +319,31 @@ public class Gui extends JFrame {
 							String name = parts[0];
 							String status = parts.length > 1 ? parts[1] : "";
 							String time = parts.length > 2 ? parts[2] : "";
-							if (tcLine.contains("⏱")) {
-								int statusIdx = tcLine.indexOf("✔");
+							if (tcLine.contains(":")) {
+								int statusIdx = tcLine.indexOf("[Ok]");
 								if (statusIdx == -1)
-									statusIdx = tcLine.indexOf("✘");
+									statusIdx = tcLine.indexOf("[Fail]");
 								if (statusIdx == -1)
-									statusIdx = tcLine.indexOf("⏳");
+									statusIdx = tcLine.indexOf("[Skip]");
 								if (statusIdx > 0) {
 									name = tcLine.substring(0, statusIdx).trim();
 									String remain = tcLine.substring(statusIdx).trim();
-									String[] remainParts = remain.split("⏱");
+									String[] remainParts = remain.split(":");
 									status = remainParts[0].trim();
-									time = remainParts.length > 1 ? "⏱" + remainParts[1].trim() : "";
+									time = remainParts.length > 1 ? remainParts[1].trim() : "";
 								}
 							}
-							table.append(String.format("%-20s %-70s %-20s %-20s\n", idx++, name, status, time));
+							// Định dạng dòng với độ rộng cột cố định
+							table.append(
+									String.format("%-15s %-60s %-30s %-10s\n", "TestCase" + idx++, name, status, time));
 						}
 						testCodeArea.setText(table.toString());
 						testCodeArea.append("\n");
-						testCodeArea.append(String.format("✘ Failed  : %d testcase%n", failed));
-						testCodeArea.append(String.format("✔ Passed  : %d testcase%n", passed));
-						testCodeArea.append(String.format("⏳ Skipped : %d testcase%n", skipped));
-						testCodeArea.append(String.format("📊 Total   : %d testcase%n", total));
-						testCodeArea.append(String.format("⏱ Total Time : %.3f s%n", totalTime));
+						testCodeArea.append(String.format("[Fail] Failed  : %d testcase%n", failed));
+						testCodeArea.append(String.format("[Ok] Passed  : %d testcase%n", passed));
+						testCodeArea.append(String.format("[Skip] Skipped : %d testcase%n", skipped));
+						testCodeArea.append(String.format("[Total] Total   : %d testcase%n", total));
+						testCodeArea.append(String.format("[Time] Total Time : %.3f s%n", totalTime));
 					}
 				} catch (Exception ex) {
 					testCodeArea.append("\n(Lỗi khi đọc file report: " + ex.getMessage() + ")\n");
